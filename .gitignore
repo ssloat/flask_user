@@ -1,4 +1,5 @@
 app.db
+config.py
 *.pyc
 *.swp
 *.log
