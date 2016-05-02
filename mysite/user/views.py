@@ -4,7 +4,7 @@ from mysite.user.models import User, ProviderId
 from flask import render_template, redirect, url_for 
 from flask.ext.login import login_user, logout_user, current_user
 
-from oauth import OAuthSignIn
+from mysite.user.oauth import OAuthSignIn
 
 
 @app.route('/logout')
