@@ -7,6 +7,14 @@ from flask.ext.login import login_user, logout_user, current_user
 from mysite.user.oauth import OAuthSignIn
 
 
+@app.route('/login')
+def login():
+    return render_template('user/login.html')
+
+@app.route('/access_denied')
+def login():
+    return render_template('user/access_denied.html')
+
 @app.route('/logout')
 def logout():
     logout_user()
