@@ -1,27 +1,29 @@
-from mysite import app, db
-from mysite.user.models import User, ProviderId
+from mysite import db
 
-from flask import render_template, redirect, url_for 
+from user.models import User, ProviderId
+from user.oauth import OAuthSignIn
+
+from flask import Blueprint, render_template, redirect, url_for 
 from flask.ext.login import login_user, logout_user, current_user
 
-from mysite.user.oauth import OAuthSignIn
 
+user_bp = Blueprint('user', __name__, template_folder='templates')
 
-@app.route('/login')
+@user_bp.route('/login')
 def login():
-    return render_template('user/login.html')
+    return render_template('login.html')
 
-@app.route('/access_denied')
-def login():
-    return render_template('user/access_denied.html')
+@user_bp.route('/access_denied')
+def access_denied():
+    return render_template('access_denied.html')
 
-@app.route('/logout')
+@user_bp.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
 
-@app.route('/authorize/<provider>')
+@user_bp.route('/authorize/<provider>')
 def oauth_authorize(provider):
     if not current_user.is_anonymous:
         return redirect(url_for('index'))
@@ -30,7 +32,7 @@ def oauth_authorize(provider):
     return oauth.authorize()
 
 
-@app.route('/callback/<provider>')
+@user_bp.route('/callback/<provider>')
 def oauth_callback(provider):
     if not current_user.is_anonymous:
         return redirect(url_for('index'))
